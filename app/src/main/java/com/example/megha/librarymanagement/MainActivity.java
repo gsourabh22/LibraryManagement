@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(MainActivity.this,MemberFirstPage.class);
+                        startActivity(intent);
                     }
                 });
 
@@ -110,4 +112,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

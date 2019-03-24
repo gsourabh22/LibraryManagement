@@ -28,7 +28,8 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".AdminLoginActivity" />
-        <activity android:name=".AdminFirstPage"></activity>
+        <activity android:name=".AdminFirstPage" />
+        <activity android:name=".MemberFirstPage"></activity>
     </application>
 
 </manifest>
