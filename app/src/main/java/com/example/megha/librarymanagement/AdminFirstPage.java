@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class AdminFirstPage extends AppCompatActivity {
-    AlertDialog alertDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
