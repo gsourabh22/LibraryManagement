@@ -55,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
         final String uname = edtname.getText().toString().trim();
         final String uidentity = edtidentity.getText().toString().trim();
         final String uphone = edtphone.getText().toString().trim();
-        textview.setText("Registering . . . PLease Wait !");
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -68,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                    Toast.makeText(RegisterActivity.this,"Registered !",Toast.LENGTH_LONG).show();
 
-                    UserRegister user = new UserRegister(uname, username, uphone, uidentity);
+                    UserRegister user = new UserRegister(uname, username, uphone, uidentity,"Member");
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(auth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

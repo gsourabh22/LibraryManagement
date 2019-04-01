@@ -1,9 +1,11 @@
 package com.example.megha.librarymanagement;
 
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     private Button loginbutton, registerbutton;
@@ -26,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     TextView textview;
+    DatabaseReference demoRef, rootRef;
+    String UserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +82,32 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this,MemberFirstPage.class);
-                        startActivity(intent);
+                        Log.d("UID", auth.getCurrentUser().getUid());
+                        final String UID=auth.getCurrentUser().getUid();
+                        rootRef = FirebaseDatabase.getInstance().getReference();
+                        demoRef = rootRef.child("Users");
+                        demoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                UserType = dataSnapshot.child(UID).child("usertype").getValue(String.class);
+                                Toast.makeText(MainActivity.this, UserType, Toast.LENGTH_LONG).show();
+
+
+                                if (UserType.equals("Member")) {
+                                    Toast.makeText(MainActivity.this, "Logged in Successfully", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(MainActivity.this, MemberFirstPage.class);
+                                    startActivity(intent);
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.d("Error","Error");
+                            }
+                        });
+
                     }
                 });
 
